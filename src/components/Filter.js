@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
+import "../scss/filter.scss";
 
+const Filter = ({ isFilter, setIsFilter, showFilter, filterAnimal }) => {
 
-const Filter = () => {
+    const [filtrType, setFiltrType] = useState("");
+    const [filtrCity, setFiltrCity] = useState("");
+
+    const turnOff = () => {
+        setIsFilter(false);
+        showFilter();
+    }
+    const handleClickFilter = () => {
+        setIsFilter(true);
+        filterAnimal(filtrType, filtrCity);
+    }
+
     return (
-        <div>
-            <form action="">
-                <input type="text" placeholder='Gatunek' />
-                <input type="text" placeholder='Rasa' />
-                <input type="text" placeholder='wiek' />
-                <input type="text" placeholder='Miejscowość' />
-                <button>Zapisz</button>
+        <div className='filter'>
+            <form onSubmit={e => handleClickFilter(e)}>
+                <input type="text" onChange={e => setFiltrType(e.target.value)} placeholder='Gatunek' />
+                <input type="text" onChange={e => setFiltrCity(e.target.value)} placeholder='Miejscowość' />
+                <button type="submit">Filtruj</button>
+                <button onClick={() => turnOff()}>Wyłącz filrowanie</button>
             </form>
         </div>
 
