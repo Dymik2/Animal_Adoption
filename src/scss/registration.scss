@@ -26,6 +26,7 @@
         box-shadow: 0 0 1em rgb(136, 61, 11);
         border-radius: 10px;
 
+
         input {
             width: 100%;
             margin-bottom: 1.7rem;
@@ -48,6 +49,7 @@
         button:hover {
             color: white;
             background-color: orange;
+            cursor: pointer;
         }
 
         button:first-of-type {
