@@ -49,8 +49,8 @@ const Login = ({ users, setLogUser }) => {
     return (
         <div className='loginMain'>
             <h1>Animal Adoption</h1>
-            {!login && <p>Błędny login lub hasło</p>}
             <form onSubmit={e => handleClickLogin(e)}>
+                {!login && <p>Błędny login lub hasło</p>}
                 <input name="name" type="text" onChange={updateForm} placeholder="Nick" />
                 <input name="password" type="password" onChange={updateForm} placeholder="Hasło" />
                 <button disabled={check} type="submit">Zaloguj</button>

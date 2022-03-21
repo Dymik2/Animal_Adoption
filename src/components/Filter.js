@@ -18,6 +18,7 @@ const Filter = ({ isFilter, setIsFilter, showFilter, filterAnimal }) => {
     return (
         <div className='filter'>
             <form onSubmit={e => handleClickFilter(e)}>
+                <h2>Filtry</h2>
                 <input type="text" onChange={e => setFiltrType(e.target.value)} placeholder='Gatunek' />
                 <input type="text" onChange={e => setFiltrCity(e.target.value)} placeholder='Miejscowość' />
                 <button type="submit">Filtruj</button>

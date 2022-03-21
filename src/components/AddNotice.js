@@ -21,6 +21,7 @@ const AddNotice = ({ createAnimal, showAdd }) => {
 
     return (<div className='addNotice'>
         <form onSubmit={handleSubmit(handleClick)}>
+            <h2>Dodaj ogłoszenie</h2>
             <input type="text" {...register("type", { required: true, minLength: 3 })} placeholder='Gatunek' />
             {errors.type?.type === 'required' && <p style={{ color: "red" }}>Gatunek jest wymagany</p>}
             {errors.type?.type === 'minLength' && <p style={{ color: "red" }}>Minimalna długość to 3 znaki</p>}
