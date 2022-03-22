@@ -3,6 +3,7 @@ import Header from './Header';
 import MainContent from './MainContent';
 import Filter from './Filter';
 import AddNotice from './AddNotice';
+import AnimalContent from './AnimalContent';
 import { db } from './firebase-config';
 import {
     collection,
@@ -21,6 +22,8 @@ const MainApp = ({ deleteUser, logUser }) => {
     const [refresh, setRefresh] = useState(false);
     const [isFilter, setIsFilter] = useState(false);
     const [filterList, setfilterList] = useState([]);
+    const [showAnimal, setShowAnimal] = useState();
+    const [showMain, setShowMain] = useState(true);
 
     useEffect(() => {
         const getAnimals = async () => {
@@ -33,7 +36,7 @@ const MainApp = ({ deleteUser, logUser }) => {
 
 
     const createAnimal = async (newAnimal) => {
-        await addDoc(animalsCollectionRef, { nameUser: newAnimal.nameUser, Type: newAnimal.type, Race: newAnimal.race, Age: newAnimal.age, Phone: newAnimal.phone, City: newAnimal.city });
+        await addDoc(animalsCollectionRef, { nameUser: newAnimal.nameUser, Type: newAnimal.type, Race: newAnimal.race, Age: newAnimal.age, Phone: newAnimal.phone, City: newAnimal.city, description: newAnimal.description });
         setRefresh(!refresh);
     };
 
@@ -59,6 +62,12 @@ const MainApp = ({ deleteUser, logUser }) => {
         console.log(filterList);
     }
 
+    const showMoreInfo = (index) => {
+        //setshowAnimal(element);
+        setShowMain(false);
+        setShowAnimal(animal[index]);
+    }
+
     const showAdd = () => {
         setAdd(!add);
         if (filtr) {
@@ -79,7 +88,8 @@ const MainApp = ({ deleteUser, logUser }) => {
             <Header showAdd={showAdd} showFilter={showFilter} deleteUser={deleteUser} logUser={logUser} />
             {filtr && <Filter isFilter={isFilter} setIsFilter={setIsFilter} showFilter={showFilter} filterAnimal={filterAnimal} />}
             {add && <AddNotice createAnimal={createAnimal} showAdd={showAdd} />}
-            <MainContent animal={animal} deleteAnimal={deleteAnimal} isFilter={isFilter} filterList={filterList} />
+            {!showMain && <AnimalContent showAnimal={showAnimal} setShowMain={setShowMain} />}
+            {showMain && <MainContent animal={animal} deleteAnimal={deleteAnimal} isFilter={isFilter} filterList={filterList} showMoreInfo={showMoreInfo} />}
 
         </>
     );

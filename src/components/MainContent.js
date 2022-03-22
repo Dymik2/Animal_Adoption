@@ -1,7 +1,7 @@
 import React from 'react';
 import "../scss/mainContent.scss";
 
-const MainContent = ({ animal, deleteAnimal, isFilter, filterList }) => {
+const MainContent = ({ animal, deleteAnimal, isFilter, filterList, showMoreInfo }) => {
 
 
 
@@ -16,6 +16,8 @@ const MainContent = ({ animal, deleteAnimal, isFilter, filterList }) => {
                     <p>Miasto: {el.City}</p>
                     <button disabled={el.nameUser !== localStorage.getItem("savedName")} onClick={() => deleteAnimal(el.id)}><i className="fa-solid fa-trash-can"></i>
                     </button>
+                    <button className='showMore' onClick={() => showMoreInfo(index)}>Show More <i className="fa-solid fa-circle-arrow-right"></i>
+                    </button>
                     <br />
                     <br />
                 </div>
@@ -29,6 +31,8 @@ const MainContent = ({ animal, deleteAnimal, isFilter, filterList }) => {
                     <p>Telefon: {el.Phone}</p>
                     <p>Miasto: {el.City}</p>
                     <button disabled={el.nameUser !== localStorage.getItem("savedName")} onClick={() => deleteAnimal(el.id)}><i className="fa-solid fa-trash-can"></i></button>
+                    <button className='showMore' onClick={() => showMoreInfo(index)}>Show More <i className="fa-solid fa-circle-arrow-right"></i>
+                    </button>
                     <br />
                     <br />
                 </div>

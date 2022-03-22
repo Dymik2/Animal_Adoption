@@ -13,7 +13,8 @@ const AddNotice = ({ createAnimal, showAdd }) => {
             race: data.race,
             age: data.age,
             phone: data.phone,
-            city: data.city
+            city: data.city,
+            description: data.description
         }
         createAnimal(newAnimal);
         showAdd();
@@ -35,6 +36,8 @@ const AddNotice = ({ createAnimal, showAdd }) => {
             <input type="text" {...register("city", { required: true, minLength: 3 })} placeholder='Miejscowość' />
             {errors.city?.type === 'required' && <p style={{ color: "red" }}>Miejscowość jest wymagana</p>}
             {errors.city?.type === 'minLength' && <p style={{ color: "red" }}>Minimalna długość to 3 znaki</p>}
+            <textarea className='textarea' {...register("description")} cols="30" rows="10" placeholder='Opis...'></textarea>
+            <input type="file" className='inputFile' />
             <button type="submit">Zapisz</button>
         </form>
     </div >);
