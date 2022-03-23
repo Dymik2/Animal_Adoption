@@ -9,6 +9,7 @@ const MainContent = ({ animal, deleteAnimal, isFilter, filterList, showMoreInfo 
         <div className='mainContent'>
             {!isFilter && localStorage.length > 0 && animal.map((el, index) => {
                 return <div key={index} className="notice">
+                    {/* <img src={el.urlImage} alt="Test" /> */}
                     <p>Zwierzę: {el.Type}</p>
                     <p>Rasa: {el.Race}</p>
                     <p>Wiek: {el.Age}</p>
@@ -25,6 +26,7 @@ const MainContent = ({ animal, deleteAnimal, isFilter, filterList, showMoreInfo 
 
             {isFilter && localStorage.length > 0 && filterList.map((el, index) => {
                 return <div key={index} className="notice">
+                    <img src={el.urlImage} alt="Test" />
                     <p>Zwierzę: {el.Type}</p>
                     <p>Rasa: {el.Race}</p>
                     <p>Wiek: {el.Age}</p>

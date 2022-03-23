@@ -13,6 +13,8 @@ import {
     deleteDoc,
     doc,
 } from "firebase/firestore";
+import { storage } from './firebase-config';
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
 const MainApp = ({ deleteUser, logUser }) => {
     const [animal, setAnimal] = useState([]);
@@ -24,6 +26,7 @@ const MainApp = ({ deleteUser, logUser }) => {
     const [filterList, setfilterList] = useState([]);
     const [showAnimal, setShowAnimal] = useState();
     const [showMain, setShowMain] = useState(true);
+    const [url, setUrl] = useState("");
 
     useEffect(() => {
         const getAnimals = async () => {
@@ -36,7 +39,30 @@ const MainApp = ({ deleteUser, logUser }) => {
 
 
     const createAnimal = async (newAnimal) => {
-        await addDoc(animalsCollectionRef, { nameUser: newAnimal.nameUser, Type: newAnimal.type, Race: newAnimal.race, Age: newAnimal.age, Phone: newAnimal.phone, City: newAnimal.city, description: newAnimal.description });
+
+        const sotrageRef = ref(storage, `files/${newAnimal.image.name}`);
+        const uploadTask = uploadBytesResumable(sotrageRef, newAnimal.image);
+
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+                const prog = Math.round(
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                );
+                console.log(prog)
+                // setProgress(prog);
+            },
+            (error) => console.log(error),
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setUrl(downloadURL);
+                    console.log("File available at", downloadURL);
+                });
+            }
+        );
+
+        await addDoc(animalsCollectionRef, { nameUser: newAnimal.nameUser, Type: newAnimal.type, Race: newAnimal.race, Age: newAnimal.age, Phone: newAnimal.phone, City: newAnimal.city, description: newAnimal.description, urlImage: url });
+
         setRefresh(!refresh);
     };
 
@@ -59,7 +85,6 @@ const MainApp = ({ deleteUser, logUser }) => {
                 return city === el.City && type === el.Type;
             }
         }));
-        console.log(filterList);
     }
 
     const showMoreInfo = (index) => {
@@ -81,16 +106,15 @@ const MainApp = ({ deleteUser, logUser }) => {
             setAdd(!add);
         }
     }
-    console.log(isFilter);
 
     return (
         <>
-            <Header showAdd={showAdd} showFilter={showFilter} deleteUser={deleteUser} logUser={logUser} />
+            <Header showAdd={showAdd} showFilter={showFilter} deleteUser={deleteUser} logUser={logUser} showMain={showMain} />
             {filtr && <Filter isFilter={isFilter} setIsFilter={setIsFilter} showFilter={showFilter} filterAnimal={filterAnimal} />}
             {add && <AddNotice createAnimal={createAnimal} showAdd={showAdd} />}
             {!showMain && <AnimalContent showAnimal={showAnimal} setShowMain={setShowMain} />}
             {showMain && <MainContent animal={animal} deleteAnimal={deleteAnimal} isFilter={isFilter} filterList={filterList} showMoreInfo={showMoreInfo} />}
-
+            {/* <img src={url} alt="Testowo" /> */}
         </>
     );
 }

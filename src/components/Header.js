@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../scss/header.scss';
 
-const Header = ({ showAdd, showFilter, deleteUser, logUser }) => {
+const Header = ({ showAdd, showFilter, deleteUser, logUser, showMain }) => {
     const [showmenu, setShowMenu] = useState(false);
     const navigate = useNavigate()
     const logOut = () => {
@@ -22,7 +22,7 @@ const Header = ({ showAdd, showFilter, deleteUser, logUser }) => {
                         {localStorage.getItem("savedName")}
                     </p>
                     <button onClick={() => showAdd()}>Dodaj Ogłoszenie </button>
-                    <button onClick={() => showFilter()}>Filtruj</button>
+                    {showMain && <button onClick={() => showFilter()}>Filtruj</button>}
                     <button onClick={() => logOut()}>Wyloguj</button>
                     <button onClick={() => deleteUser(logUser)}>Usuń konto</button>
                 </div>}

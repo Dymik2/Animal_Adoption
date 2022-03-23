@@ -4,6 +4,7 @@ import "../scss/AnimalContent.scss";
 const AnimalContent = ({ showAnimal, setShowMain }) => {
 
     return (<div className='mainAnimalContent'>
+        <img src={showAnimal.urlImage} alt="Test" />
         <p>Zwierzę: {showAnimal.Type}</p>
         <p>Rasa: {showAnimal.Race}</p>
         <p>Wiek: {showAnimal.Age}</p>
