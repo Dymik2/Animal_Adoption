@@ -10,22 +10,39 @@ const Header = ({ showAdd, showFilter, deleteUser, logUser, showMain }) => {
         navigate("/");
     }
 
+    const handleFilterClick = () => {
+        setShowMenu(false);
+        showFilter();
+    }
 
+    /*if (window.innerWidth > 1023) {
+        setShowMenu(true);
+        console.log(window.innerWidth);
+    }*/
+
+    const handleAddClick = () => {
+        setShowMenu(false);
+        showAdd();
+    }
+    console.log(showmenu);
     return (
         <header className='header'>
             <div className='content'>
                 <h2>Animal Adoption</h2>
                 <button className='hamburger' onClick={() => setShowMenu(!showmenu)}><i className="fa-solid fa-bars"></i></button>
-                {showmenu && <div className='headerMenu'>
+                <div className={showmenu === true ? "headerMenu" : "headerMenu active"} >
                     <p>
                         <i className="fa-solid fa-user"></i>
                         {localStorage.getItem("savedName")}
                     </p>
-                    <button onClick={() => showAdd()}>Dodaj Ogłoszenie </button>
-                    {showMain && <button onClick={() => showFilter()}>Filtruj</button>}
-                    <button onClick={() => logOut()}>Wyloguj</button>
-                    <button onClick={() => deleteUser(logUser)}>Usuń konto</button>
-                </div>}
+                    <div>
+                        <button onClick={() => handleAddClick()}>Dodaj Ogłoszenie </button>
+                        {showMain && <button onClick={() => handleFilterClick()}>Filtruj</button>}
+                        <button onClick={() => logOut()}>Wyloguj</button>
+                        <button onClick={() => deleteUser(logUser)}>Usuń konto</button>
+                    </div>
+
+                </div>
             </div>
         </header>
     );

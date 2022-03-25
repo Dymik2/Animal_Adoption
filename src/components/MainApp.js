@@ -14,7 +14,7 @@ import {
     doc,
 } from "firebase/firestore";
 import { storage } from './firebase-config';
-import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { ref, getDownloadURL, uploadBytesResumable, deleteObject } from "firebase/storage";
 
 const MainApp = ({ deleteUser, logUser }) => {
     const [animal, setAnimal] = useState([]);
@@ -43,7 +43,7 @@ const MainApp = ({ deleteUser, logUser }) => {
         const sotrageRef = ref(storage, `files/${newAnimal.image.name}`);
         const uploadTask = uploadBytesResumable(sotrageRef, newAnimal.image);
 
-        uploadTask.on(
+        await uploadTask.on(
             "state_changed",
             (snapshot) => {
                 const prog = Math.round(
@@ -55,21 +55,32 @@ const MainApp = ({ deleteUser, logUser }) => {
             (error) => console.log(error),
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    setUrl(downloadURL);
                     console.log("File available at", downloadURL);
+                    setUrl(downloadURL);
+                    console.log(url);
+                    // addDoc(animalsCollectionRef, { nameUser: newAnimal.nameUser, Type: newAnimal.type, Race: newAnimal.race, Age: newAnimal.age, Phone: newAnimal.phone, City: newAnimal.city, description: newAnimal.description, urlImage: url, namePhoto: newAnimal.image.name });
+                    // setRefresh(!refresh);
                 });
             }
         );
 
-        await addDoc(animalsCollectionRef, { nameUser: newAnimal.nameUser, Type: newAnimal.type, Race: newAnimal.race, Age: newAnimal.age, Phone: newAnimal.phone, City: newAnimal.city, description: newAnimal.description, urlImage: url });
+        // console.log(uploadTask.snapshot.ref);
+        //console.log(getDownloadURL(uploadTask.snapshot.ref));
+        await addDoc(animalsCollectionRef, { nameUser: newAnimal.nameUser, Type: newAnimal.type, Race: newAnimal.race, Age: newAnimal.age, Phone: newAnimal.phone, City: newAnimal.city, description: newAnimal.description, urlImage: url, namePhoto: newAnimal.image.name });
 
         setRefresh(!refresh);
     };
 
-    const deleteAnimal = async (id) => {
-        console.log(id);
+    const deleteAnimal = async (id, namePhoto) => {
         const animalDoc = doc(db, "animal", id);
         await deleteDoc(animalDoc);
+        const desertRef = ref(storage, "files/" + namePhoto)
+        console.log(desertRef);
+        deleteObject(desertRef).then(() => {
+            console.log("deleted")
+        }).catch((error) => {
+            console.log("Something went wrong");
+        })
         setRefresh(!refresh);
     };
 
@@ -89,6 +100,9 @@ const MainApp = ({ deleteUser, logUser }) => {
 
     const showMoreInfo = (index) => {
         //setshowAnimal(element);
+        if (filtr) {
+            setFilter(!filtr);
+        }
         setShowMain(false);
         setShowAnimal(animal[index]);
     }

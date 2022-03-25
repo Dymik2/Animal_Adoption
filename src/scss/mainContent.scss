@@ -4,8 +4,8 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin-top: 5vh;
-    padding-top: 5vh;
+    margin-top: 6vh;
+    padding-top: 4vh;
     border-top: 2px solid orange;
     font-family: 'Roboto', sans-serif;
 
@@ -13,6 +13,10 @@
         margin-top: 20px;
         width: 85%;
         border-bottom: 3px dotted orange;
+    }
+
+    .notice:first-of-type {
+        margin-top: 0px;
     }
 
     // img {

@@ -36,6 +36,78 @@
         border: none;
     }
 
+    @media (min-width: 1024px) {
+        .hamburger {
+            display: none;
+        }
+    }
+
+    .active {
+        display: none;
+    }
+
+    @media (min-width: 1024px) {
+        .active {
+            display: block;
+        }
+
+        .headerMenu {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+            align-items: center;
+            position: static;
+            background-color: white;
+            height: auto;
+            z-index: 10;
+            box-shadow: none;
+            margin: 0;
+            padding: 0;
+            border: none;
+            padding: 15px 20px 15px;
+            border-radius: 20px;
+
+            div {
+                height: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                font-size: 1rem;
+                font-family: 'Roboto', sans-serif;
+                font-weight: bold;
+                letter-spacing: 1px;
+
+            }
+
+            p {
+                display: block;
+                margin: 0;
+                margin-left: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                i {
+                    display: block;
+                }
+            }
+
+            button {
+                display: block;
+                margin: 0 20px 0;
+                padding: 10px 15px;
+            }
+
+            button:hover {
+                color: white;
+                background-color: orange;
+                cursor: pointer;
+            }
+
+        }
+    }
+
 }
 
 .headerMenu {
@@ -52,12 +124,20 @@
 
     box-shadow: 14px 0px 12px -13px rgba(200, 140, 23, 1);
 
+
+
     p {
         display: block;
         margin-top: 25px;
         margin-bottom: 10px;
         font-size: 1.3rem;
         color: orangered;
+    }
+
+    div {
+        display: flex;
+        flex-direction: column;
+
     }
 
     i {
