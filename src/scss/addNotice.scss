@@ -1,6 +1,8 @@
 .addNotice {
     margin-top: 10vh;
     font-family: 'Roboto', sans-serif;
+    width: 100%;
+    max-width: 1600px;
 
     form {
         display: flex;
@@ -48,6 +50,25 @@
 
         .inputFile {
             padding: 2px;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        width: 60%;
+
+        h2 {
+            font-size: 2.5rem;
+        }
+
+        input {
+            height: 2rem;
+            font-size: 1.5rem;
+        }
+
+        textarea {
+
+            font-size: 1.5rem;
+
         }
     }
 }

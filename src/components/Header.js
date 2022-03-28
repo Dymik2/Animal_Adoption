@@ -24,7 +24,7 @@ const Header = ({ showAdd, showFilter, deleteUser, logUser, showMain }) => {
         setShowMenu(false);
         showAdd();
     }
-    console.log(showmenu);
+
     return (
         <header className='header'>
             <div className='content'>

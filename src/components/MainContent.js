@@ -6,7 +6,7 @@ const MainContent = ({ animal, deleteAnimal, isFilter, filterList, showMoreInfo 
     return (
         <div className='mainContent'>
             {!isFilter && localStorage.length > 0 && animal.map((el, index) => {
-                console.log(`Renderowanie: ${el.urlImage}`)
+                //  console.log(`Renderowanie: ${el.urlImage}`)
                 return <div key={index} className="notice">
                     {/* <img src={el.urlImage} alt="Test" /> */}
                     <p>Zwierzę: {el.Type}</p>

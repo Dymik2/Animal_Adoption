@@ -7,6 +7,8 @@
     height: 100vh;
     background-color: orange;
     color: #f2f5f7;
+    width: 100%;
+    // max-width: 1600px;
 
     h1 {
         font-family: 'Dancing Script', cursive;
@@ -71,6 +73,12 @@
             border: 3px solid grey;
             background-color: grey;
             color: white;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        h1 {
+            font-size: 4.5rem;
         }
     }
 }

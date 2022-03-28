@@ -26,7 +26,7 @@ const MainApp = ({ deleteUser, logUser }) => {
     const [filterList, setfilterList] = useState([]);
     const [showAnimal, setShowAnimal] = useState();
     const [showMain, setShowMain] = useState(true);
-    const [url, setUrl] = useState("");
+    //const [url, setUrl] = useState("");
 
     useEffect(() => {
         const getAnimals = async () => {
@@ -36,6 +36,12 @@ const MainApp = ({ deleteUser, logUser }) => {
 
         getAnimals();
     }, [refresh]);
+
+    const addDescription = async (downloadURL, newAnimal) => {
+        console.log(newAnimal);
+        await addDoc(animalsCollectionRef, { nameUser: newAnimal.nameUser, Type: newAnimal.type, Race: newAnimal.race, Age: newAnimal.age, Phone: newAnimal.phone, City: newAnimal.city, description: newAnimal.description, urlImage: downloadURL, namePhoto: newAnimal.image.name });
+        setRefresh(!refresh);
+    }
 
 
     const createAnimal = async (newAnimal) => {
@@ -49,33 +55,36 @@ const MainApp = ({ deleteUser, logUser }) => {
                 const prog = Math.round(
                     (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                 );
-                console.log(prog)
+                // console.log(prog)
                 // setProgress(prog);
             },
             (error) => console.log(error),
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     console.log("File available at", downloadURL);
-                    setUrl(downloadURL);
-                    console.log(url);
-                    // addDoc(animalsCollectionRef, { nameUser: newAnimal.nameUser, Type: newAnimal.type, Race: newAnimal.race, Age: newAnimal.age, Phone: newAnimal.phone, City: newAnimal.city, description: newAnimal.description, urlImage: url, namePhoto: newAnimal.image.name });
-                    // setRefresh(!refresh);
+                    // setUrl(downloadURL);
+                    // console.log(url);
+                    addDoc(animalsCollectionRef, { nameUser: newAnimal.nameUser, Type: newAnimal.type, Race: newAnimal.race, Age: newAnimal.age, Phone: newAnimal.phone, City: newAnimal.city, description: newAnimal.description, urlImage: downloadURL, namePhoto: newAnimal.image.name });
+                    setRefresh(!refresh);
+                    // addDescription(downloadURL, newAnimal);
+
                 });
+
             }
+
         );
-
         // console.log(uploadTask.snapshot.ref);
-        //console.log(getDownloadURL(uploadTask.snapshot.ref));
-        await addDoc(animalsCollectionRef, { nameUser: newAnimal.nameUser, Type: newAnimal.type, Race: newAnimal.race, Age: newAnimal.age, Phone: newAnimal.phone, City: newAnimal.city, description: newAnimal.description, urlImage: url, namePhoto: newAnimal.image.name });
+        // console.log(getDownloadURL(uploadTask.snapshot.ref).downloadURL);
+        // await setTimeout(() => { console.log("World!"); }, 3000);
+        // await addDoc(animalsCollectionRef, { nameUser: newAnimal.nameUser, Type: newAnimal.type, Race: newAnimal.race, Age: newAnimal.age, Phone: newAnimal.phone, City: newAnimal.city, description: newAnimal.description, urlImage: url, namePhoto: newAnimal.image.name });
 
-        setRefresh(!refresh);
+        // setRefresh(!refresh);
     };
 
     const deleteAnimal = async (id, namePhoto) => {
         const animalDoc = doc(db, "animal", id);
         await deleteDoc(animalDoc);
         const desertRef = ref(storage, "files/" + namePhoto)
-        console.log(desertRef);
         deleteObject(desertRef).then(() => {
             console.log("deleted")
         }).catch((error) => {

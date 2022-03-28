@@ -8,11 +8,18 @@
     padding-top: 4vh;
     border-top: 2px solid orange;
     font-family: 'Roboto', sans-serif;
+    max-width: 1600px;
 
     .notice {
         margin-top: 20px;
         width: 85%;
         border-bottom: 3px dotted orange;
+
+        @media (min-width: 1024px) {
+            p {
+                font-size: 1.3rem;
+            }
+        }
     }
 
     .notice:first-of-type {
