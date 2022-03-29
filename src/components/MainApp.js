@@ -3,6 +3,7 @@ import Header from './Header';
 import MainContent from './MainContent';
 import Filter from './Filter';
 import AddNotice from './AddNotice';
+import EditNotice from './EditNotice';
 import AnimalContent from './AnimalContent';
 import { db } from './firebase-config';
 import {
@@ -21,12 +22,14 @@ const MainApp = ({ deleteUser, logUser }) => {
     const animalsCollectionRef = collection(db, "animal");
     const [add, setAdd] = useState(false);
     const [filtr, setFilter] = useState(false);
+    const [edit, setEdit] = useState(false);
+    const [elEdit, setElEdit] = useState({});
     const [refresh, setRefresh] = useState(false);
     const [isFilter, setIsFilter] = useState(false);
     const [filterList, setfilterList] = useState([]);
     const [showAnimal, setShowAnimal] = useState();
     const [showMain, setShowMain] = useState(true);
-    //const [url, setUrl] = useState("");
+
 
     useEffect(() => {
         const getAnimals = async () => {
@@ -36,12 +39,6 @@ const MainApp = ({ deleteUser, logUser }) => {
 
         getAnimals();
     }, [refresh]);
-
-    const addDescription = async (downloadURL, newAnimal) => {
-        console.log(newAnimal);
-        await addDoc(animalsCollectionRef, { nameUser: newAnimal.nameUser, Type: newAnimal.type, Race: newAnimal.race, Age: newAnimal.age, Phone: newAnimal.phone, City: newAnimal.city, description: newAnimal.description, urlImage: downloadURL, namePhoto: newAnimal.image.name });
-        setRefresh(!refresh);
-    }
 
 
     const createAnimal = async (newAnimal) => {
@@ -71,15 +68,16 @@ const MainApp = ({ deleteUser, logUser }) => {
                 });
 
             }
-
         );
-        // console.log(uploadTask.snapshot.ref);
-        // console.log(getDownloadURL(uploadTask.snapshot.ref).downloadURL);
-        // await setTimeout(() => { console.log("World!"); }, 3000);
-        // await addDoc(animalsCollectionRef, { nameUser: newAnimal.nameUser, Type: newAnimal.type, Race: newAnimal.race, Age: newAnimal.age, Phone: newAnimal.phone, City: newAnimal.city, description: newAnimal.description, urlImage: url, namePhoto: newAnimal.image.name });
-
-        // setRefresh(!refresh);
     };
+    const updateAnimal = async (updateAnimal) => {
+        console.log(updateAnimal.id);
+        const animalDoc = doc(db, "animal", updateAnimal.id);
+        updateDoc(animalDoc, { nameUser: updateAnimal.nameUser, Type: updateAnimal.type, Race: updateAnimal.race, Age: updateAnimal.age, Phone: updateAnimal.phone, City: updateAnimal.city, description: updateAnimal.description, urlImage: updateAnimal.urlImage, namePhoto: updateAnimal.namePhoto });
+        setEdit(false);
+        setRefresh(!refresh);
+
+    }
 
     const deleteAnimal = async (id, namePhoto) => {
         const animalDoc = doc(db, "animal", id);
@@ -112,6 +110,9 @@ const MainApp = ({ deleteUser, logUser }) => {
         if (filtr) {
             setFilter(!filtr);
         }
+        if (edit) {
+            setEdit(!edit);
+        }
         setShowMain(false);
         setShowAnimal(animal[index]);
     }
@@ -121,6 +122,9 @@ const MainApp = ({ deleteUser, logUser }) => {
         if (filtr) {
             setFilter(!filtr);
         }
+        if (edit) {
+            setEdit(!edit);
+        }
     }
 
     const showFilter = () => {
@@ -128,16 +132,35 @@ const MainApp = ({ deleteUser, logUser }) => {
         if (add) {
             setAdd(!add);
         }
+        if (edit) {
+            setEdit(!edit);
+        }
+    }
+
+    const showEdit = (el) => {
+        console.log(el);
+        if (filtr) {
+            setFilter(!filtr);
+        }
+        if (add) {
+            setAdd(!add);
+        }
+
+        setEdit(!edit);
+        //setElEdit(prevState => prevState = animal[el]);
+        setElEdit(prevState => prevState = animal[el]);
+
+        // console.log(elEdit);
     }
 
     return (
         <>
             <Header showAdd={showAdd} showFilter={showFilter} deleteUser={deleteUser} logUser={logUser} showMain={showMain} />
+            {edit && <EditNotice elEdit={elEdit} updateAnimal={updateAnimal} showEdit={showEdit} />}
             {filtr && <Filter isFilter={isFilter} setIsFilter={setIsFilter} showFilter={showFilter} filterAnimal={filterAnimal} />}
             {add && <AddNotice createAnimal={createAnimal} showAdd={showAdd} />}
             {!showMain && <AnimalContent showAnimal={showAnimal} setShowMain={setShowMain} />}
-            {showMain && <MainContent animal={animal} deleteAnimal={deleteAnimal} isFilter={isFilter} filterList={filterList} showMoreInfo={showMoreInfo} />}
-            {/* <img src={url} alt="Testowo" /> */}
+            {showMain && <MainContent animal={animal} deleteAnimal={deleteAnimal} isFilter={isFilter} filterList={filterList} showMoreInfo={showMoreInfo} showEdit={showEdit} />}
         </>
     );
 }

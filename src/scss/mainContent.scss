@@ -43,7 +43,13 @@
     }
 
     .fa-trash-can {
+        margin-left: 10px;
         color: red;
+        font-size: 30px;
+    }
+
+    .fa-pen-to-square {
+        color: green;
         font-size: 30px;
     }
 
@@ -53,6 +59,15 @@
     }
 
     button:disabled .fa-trash-can {
+        color: grey;
+    }
+
+    button:hover .fa-pen-to-square {
+        color: darkgreen;
+        cursor: pointer;
+    }
+
+    button:disabled .fa-pen-to-square {
         color: grey;
     }
 
