@@ -10,7 +10,7 @@ const Filter = ({ isFilter, setIsFilter, showFilter, filterAnimal }) => {
         setIsFilter(false);
         showFilter();
     }
-    const handleClickFilter = () => {
+    const handleClickFilter = (e) => {
         setIsFilter(true);
         filterAnimal(filtrType, filtrCity);
     }

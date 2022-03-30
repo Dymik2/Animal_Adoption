@@ -15,11 +15,6 @@ const Header = ({ showAdd, showFilter, deleteUser, logUser, showMain }) => {
         showFilter();
     }
 
-    /*if (window.innerWidth > 1023) {
-        setShowMenu(true);
-        console.log(window.innerWidth);
-    }*/
-
     const handleAddClick = () => {
         setShowMenu(false);
         showAdd();

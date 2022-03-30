@@ -1,8 +1,7 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 
-const EditNotice = ({ elEdit, updateAnimal, showEdit }) => {
-    console.log(elEdit);
+const EditNotice = ({ elEdit, updateAnimal }) => {
 
     const { register, formState: { errors }, handleSubmit } = useForm();
 
@@ -20,7 +19,6 @@ const EditNotice = ({ elEdit, updateAnimal, showEdit }) => {
             id: elEdit.id
         }
         updateAnimal(editAnimal);
-        // showEdit();
     }
     return (<div className='addNotice'>
         <form onSubmit={handleSubmit(handleClick)}>

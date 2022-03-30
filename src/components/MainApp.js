@@ -52,26 +52,19 @@ const MainApp = ({ deleteUser, logUser }) => {
                 const prog = Math.round(
                     (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                 );
-                // console.log(prog)
-                // setProgress(prog);
             },
             (error) => console.log(error),
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     console.log("File available at", downloadURL);
-                    // setUrl(downloadURL);
-                    // console.log(url);
                     addDoc(animalsCollectionRef, { nameUser: newAnimal.nameUser, Type: newAnimal.type, Race: newAnimal.race, Age: newAnimal.age, Phone: newAnimal.phone, City: newAnimal.city, description: newAnimal.description, urlImage: downloadURL, namePhoto: newAnimal.image.name });
                     setRefresh(!refresh);
-                    // addDescription(downloadURL, newAnimal);
-
                 });
 
             }
         );
     };
     const updateAnimal = async (updateAnimal) => {
-        console.log(updateAnimal.id);
         const animalDoc = doc(db, "animal", updateAnimal.id);
         updateDoc(animalDoc, { nameUser: updateAnimal.nameUser, Type: updateAnimal.type, Race: updateAnimal.race, Age: updateAnimal.age, Phone: updateAnimal.phone, City: updateAnimal.city, description: updateAnimal.description, urlImage: updateAnimal.urlImage, namePhoto: updateAnimal.namePhoto });
         setEdit(false);
@@ -92,21 +85,24 @@ const MainApp = ({ deleteUser, logUser }) => {
     };
 
     const filterAnimal = (type, city) => {
-        setfilterList(animal.filter(el => {
-            if (type === "") {
-                return city === el.City;
-            }
-            if (city === "") {
-                return type === el.Type;
-            }
-            else {
-                return city === el.City && type === el.Type;
-            }
-        }));
+        if (type === "") {
+            setfilterList(animal.filter(el => {
+                return el.City.toLowerCase().indexOf(city.toLowerCase()) !== -1
+            }));
+        }
+        if (city === "") {
+            setfilterList(animal.filter(el => {
+                return el.Type.toLowerCase().indexOf(type.toLowerCase()) !== -1
+            }));
+        }
+        if (city !== "" && type !== "") {
+            setfilterList(animal.filter(el => {
+                return el.Type.toLowerCase().indexOf(type.toLowerCase()) !== -1 && el.Type.toLowerCase().indexOf(type.toLowerCase()) !== -1
+            }));
+        }
     }
 
     const showMoreInfo = (index) => {
-        //setshowAnimal(element);
         if (filtr) {
             setFilter(!filtr);
         }
@@ -129,6 +125,7 @@ const MainApp = ({ deleteUser, logUser }) => {
 
     const showFilter = () => {
         setFilter(!filtr);
+        setIsFilter(false);
         if (add) {
             setAdd(!add);
         }
@@ -138,25 +135,20 @@ const MainApp = ({ deleteUser, logUser }) => {
     }
 
     const showEdit = (el) => {
-        console.log(el);
         if (filtr) {
             setFilter(!filtr);
         }
         if (add) {
             setAdd(!add);
         }
-
         setEdit(!edit);
-        //setElEdit(prevState => prevState = animal[el]);
         setElEdit(prevState => prevState = animal[el]);
-
-        // console.log(elEdit);
     }
 
     return (
         <>
             <Header showAdd={showAdd} showFilter={showFilter} deleteUser={deleteUser} logUser={logUser} showMain={showMain} />
-            {edit && <EditNotice elEdit={elEdit} updateAnimal={updateAnimal} showEdit={showEdit} />}
+            {edit && <EditNotice elEdit={elEdit} updateAnimal={updateAnimal} />}
             {filtr && <Filter isFilter={isFilter} setIsFilter={setIsFilter} showFilter={showFilter} filterAnimal={filterAnimal} />}
             {add && <AddNotice createAnimal={createAnimal} showAdd={showAdd} />}
             {!showMain && <AnimalContent showAnimal={showAnimal} setShowMain={setShowMain} />}

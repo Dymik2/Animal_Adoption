@@ -18,7 +18,6 @@ const AddNotice = ({ createAnimal, showAdd }) => {
             image: data.image[0]
         }
 
-        console.log(newAnimal.image);
         createAnimal(newAnimal);
         showAdd();
     }

@@ -28,7 +28,6 @@ const Login = ({ users, setLogUser }) => {
         e.preventDefault();
         console.log(users);
         users.forEach(user => {
-            console.log(user);
             if (form.password === user.password && form.name === user.name) {
                 localStorage.setItem('savedName', form.name);
                 console.log(localStorage.getItem("savedName"));

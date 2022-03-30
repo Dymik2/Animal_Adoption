@@ -26,12 +26,6 @@
         margin-top: 0px;
     }
 
-    // img {
-    //     width: 200px;
-    //     height: auto;
-    //     border-radius: 50%;
-    // }
-
     .notice:last-of-type {
         border-bottom: none;
     }
@@ -79,5 +73,6 @@
 
     .showMore:hover {
         color: orangered;
+        cursor: pointer;
     }
 }

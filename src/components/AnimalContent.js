@@ -2,7 +2,6 @@ import React from 'react';
 import "../scss/AnimalContent.scss";
 
 const AnimalContent = ({ showAnimal, setShowMain }) => {
-    console.log(showAnimal.urlImage);
     return (<div className='mainAnimalContent'>
         <img src={showAnimal.urlImage} alt="Brak zdjecia" />
         <div>
